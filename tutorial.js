@@ -1,3 +1,8 @@
+/*Tutorial Class
+ * Coded by Lauren Cunningham
+ * This is the class for the tutorial of the game
+ */
+
 var t1 = document.createElement("img");
 t1.src = "tutorial1 copy.png";
 var t2 = document.createElement("img");
@@ -27,6 +32,7 @@ t11.src = "tutorial11 copy.png";
 var t12 = document.createElement("img");
 t12.src = "tutorial12 copy.png";
 
+//creates a tutorial object. This is called on game creation
 function tutorial(){
 	ctx.drawImage(t1, 0, 0);
 	this.imgNum = 1;
@@ -34,6 +40,7 @@ function tutorial(){
 
 tutorial.prototype.type = "tutorial";
 
+//handles button presses (one button for continuing the tutorial, one for exiting it)
 tutorial.prototype.buttonPress = function(e){
 	var x = e.clientX;
 	var y = e.clientY;
@@ -51,6 +58,7 @@ tutorial.prototype.buttonPress = function(e){
 	}
 };
 
+//updates the tutorial screens
 tutorial.prototype.update = function(){
 	screenManager[screenManager.length - 2].update();
 	switch(this.imgNum){

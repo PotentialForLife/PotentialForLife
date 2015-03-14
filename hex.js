@@ -153,45 +153,5 @@ Hex.prototype.collision = function(x,y,player){
 	}
 };
 
-Hex.prototype.spreadair = function(x,y,kill,globalbuffer){
-	this.atmosphere = true;
-	if (this.beenchecked == false){
-		this.beenchecked = true;
-		globalwin++;
-		globalbuffer.push(map[x][y]);
-	}
-	if (kill == 0){return;}
-	else{
-		--kill;
-		if (map[x][y+2]){
-		map[x][y+2].spreadair(x,y+2,kill,globalbuffer);
-		}
-		if (map[x][y+1]){
-		map[x][y+1].spreadair(x,y+1,kill,globalbuffer);
-		}
-		if (map[x][y-1]){
-		map[x][y-1].spreadair(x,y-1,kill,globalbuffer);
-		}
-		if (map[x][y-2]){
-		map[x][y-2].spreadair(x,y-2,kill,globalbuffer);
-		}
-		if(!((this.y)%2)){
-			if (map[x+1][y+1]){
-			map[x+1][y+1].spreadair(x+1,y+1,kill,globalbuffer);
-			}
-			if (map[x+1][y-1]){
-			map[x+1][y-1].spreadair(x+1,y-1,kill,globalbuffer);
-			}
-		}else if((this.y)%2){
-			if (map[x-1][y-1]){
-			map[x-1][y-1].spreadair(x-1,y-1,kill,globalbuffer);
-			}
-			if (map[x-1][y+1]){
-			map[x-1][y+1].spreadair(x-1,y+1,kill,globalbuffer);
-			}
-		}
-	}
-};
-
 
 

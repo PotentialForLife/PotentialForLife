@@ -1,5 +1,11 @@
+/*Controls Screen Class
+ * Coded by Lauren Cunningham
+ * This is the class for the controls screen of the game
+ */
+
 var img = document.createElement("img");
 
+//creates a controls screen object. This is called from either main menu or pause menu and is stored in screen manager
 function controlsMenu(){
 	img.src = "controls_menu copy.png";
 	img.onload = function(){
@@ -9,6 +15,7 @@ function controlsMenu(){
 
 controlsMenu.prototype.type = "controls";
 
+//handles the back button on the screen
 controlsMenu.prototype.buttonPress = function(e){
 	var x = e.clientX;
 	var y = e.clientY;
@@ -21,6 +28,7 @@ controlsMenu.prototype.buttonPress = function(e){
 	}
 };
 
+//updates the screen
 controlsMenu.prototype.update = function(){
 	img.src = "controls_menu copy.png";
 	img.onload = function(){

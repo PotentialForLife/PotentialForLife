@@ -1,6 +1,12 @@
+/*Cultivate Menu Class
+ * Coded by Lauren Cunningham
+ * This is the class for the cultivate menu screen of the game
+ */
+
 var img = document.createElement("img");
 img.src = "cultivate_menu copy.png";
 
+//create a ciltivate menu. This function is called by station meu and stored in screen manager
 function cultivateMenu(){
 	img.src = "cultivate_menu copy.png";
 	img.onload = function(){
@@ -10,6 +16,7 @@ function cultivateMenu(){
 
 cultivateMenu.prototype.type = "cultivate";
 
+//handles the buttons on the menu
 cultivateMenu.prototype.buttonPress = function(e){
 	var x = e.clientX;
 	var y = e.clientY;
@@ -17,8 +24,7 @@ cultivateMenu.prototype.buttonPress = function(e){
 	y -= c.offsetTop;
 	
 	if ((x >= 509) && (x <= 551) && (y >= 54) && (y <= 88)){ //back
-		shutDown.play();
-		screenManager.splice((screenManager.length - 1), 1);
+		button.play();
 		screenManager.splice((screenManager.length - 1), 1);
 	}
 	if ((x >= 144) && (x <= 371) && (y >= 143) && (y <= 212)){ //cultivate plant
@@ -49,6 +55,7 @@ cultivateMenu.prototype.buttonPress = function(e){
 	}
 };
 
+//updates the menu (image and text)
 cultivateMenu.prototype.update = function(){
 	ctx.drawImage(img, 0, 0);
 	ctx.fillStyle = "black";

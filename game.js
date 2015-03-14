@@ -4,7 +4,14 @@ var xlength = 500;
 var ylength = 500;
 
 function game(){
+	tut = false;
+	tileChecks = [];
+	growTiles = [];
 	//creation of the map
+	map = new Array();
+	player = new Player();
+	X_FLAG = Math.floor(player.x/cw/3);
+	Y_FLAG = Math.floor(player.y/cw);
 	for (x = 1; x < xlength ; x+=3){
 		var col = new Array();
 		for (y = 1; y < ylength; y++){
@@ -99,7 +106,7 @@ game.prototype.update = function(){
 			checkMovement = true;
 		}
 	}
-	if(globalwin >= (333*999*.8))
+	if(globalwin >= (166*500*.2))
 		screenManager[screenManager.length] = new win();
 	if(control.PlayerEnergy == 0)
 		screenManager[screenManager.length] = new lose();
@@ -281,7 +288,6 @@ function keyUp(e){
 			if (player.image == playerpickingleftimg || player.image == playerpickingrightimg){
 			if (player.dir == "right"){player.image = playeridlerightimg;}else{player.image = playeridleleftimg;}
 			}
-			if(player.inControl == true)map[X_FLAG][Y_FLAG].color = 'grey';
             keybuf = false;
 			break;
 		default:

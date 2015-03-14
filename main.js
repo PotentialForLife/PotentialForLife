@@ -10,7 +10,6 @@ var c = document.getElementById("canvas");
 //declaration of the screen manager. This is used as a stack and holds on the top the currently-active screen
 var screenManager = [];
 screenManager[0] = new mainMenu();
-var screenType = "main";
 
 //for loading screen
 var loaded = false;
@@ -60,10 +59,8 @@ var UP_KEY = 87;
 var DOWN_KEY = 83;
 var X_FLAG = -1;
 var Y_FLAG = -1;
-var map = new Array();
-var player = new Player();
-X_FLAG = Math.floor(player.x/cw/3);
-Y_FLAG = Math.floor(player.y/cw);
+var map;
+var player;
 
 //cam stuff
 var CAM_HEIGHT = 600;

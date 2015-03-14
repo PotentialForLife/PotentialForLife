@@ -1,15 +1,19 @@
-//CONSTS
+// constants
 var TILE_COLORS = [ '#CC5200', '#E65C00', '#FF6600', '#FF7519', '#FF8533', '#FF9900', '#80FFFF', '#FFC299', '#FF0000'];
 var rocksimg = document.createElement("img");
 rocksimg.src = "barren_space_icon copy.png";
-/*var VIEW_WIDTH = 1000;
-var VIEW_HEIGHT = 1000;
-var VIEW_TILE_WIDTH = Math.floor ( VIEW_WIDTH / TILE_SIZE );
-var VIEW_TILE_HEIGHT = Math.floor ( VIEW_HEIGHT / TILE_SIZE );
-*/
-//INITIALIZATION
+
+// Seed
+// Arguements: int base, int next, int seeds, int[][] map
+// Returns: nothing
+//
+// Seed randomly gerenates xy coordinates within a 2D array
+// If [x][y] value is equal to base then it will be set to next
+// If base is -1 it a seed will be placed regardless of the value at [x][y]
+// If base is 5 or 6 seed sets respective mineral or water sprite
+// Any other other numbers will just change tile color and height
+// Llama God cannot be seeded with this function 
 function seed(base, next, seeds, map){
-	console.log(seeds);
 	var height;
 	if(next != 8){
 		for(x = 0; x < seeds; x++){
@@ -37,6 +41,16 @@ function seed(base, next, seeds, map){
 	}
 }
 
+// Square Seed
+// arguements: int base, int next, int seeds, int distance, int[][] map
+// returns: nothing
+//
+// SqrSeed randomly generates xy coordinates outside the bounds of a square in a 2D array
+// If [x][y] value is equal to base and not within the square then it will be set to next
+// If base is -1 it a seed will be placed regardless of the value at [x][y] unless inside the square
+// If base is 5 or 6 seed sets respective mineral or water sprite
+// Any other other numbers will just change tile color and height
+// Llama God can be seeded with this function
 function sqrSeed(base, next, seeds, distance, map){
 	if(next != 8){
 		for(x = 0; x < seeds; x++){
@@ -85,6 +99,16 @@ function sqrSeed(base, next, seeds, distance, map){
 	}
 }
 
+// Reverse Square Seed
+// arguements: int base, int next, int seeds, int distance, int[][] map
+// returns: nothing
+//
+// reverseSqrSeed randomly generates xy coordinates inside the bounds of a square in a 2D array
+// If [x][y] value is equal it base and within the square then it will be set to next
+// If base is -1 it a seed will be placed regardless of the value at [x][y] unless inside the square
+// If base is 5 or 6 seed sets respective mineral or water sprite
+// Any other other numbers will just change tile color and height
+// Llama God can be seeded with this function
 function reverseSqrSeed(base, next, seeds, distance, map){
 	if(next != 8){
 		for(x = 0; x < seeds; x++){
@@ -132,7 +156,15 @@ function reverseSqrSeed(base, next, seeds, distance, map){
 	}
 }
 
-
+// Build
+// arguements: int base, int next, int chance, int seeds, int[][] map
+// returns: nothing
+//
+// Build seeds a 2D array with randomly generated numbers and then spreads the next value based on chance value
+// If seeds is 0 no new seeds will be placed but next will still be spread
+// If chance is 0 next will not spread
+// If base is -1 will spread all tiles
+// Might need to write something to stop Llama God from spreading 
 function build(base, next, chance, seeds, map){
 	seed(base, next, seeds, map);
 	//var next = next;
@@ -336,7 +368,13 @@ function build(base, next, chance, seeds, map){
      	}
 	}
 }
-	
+
+// Sine Seed
+// arguements: int base, int next, int a, int b, int[][] map
+// returns: nothing
+//
+// sinSeed generates seeds for spreading in a 2D along a sin function
+// y = asin(bx)
 function sinSeed(base, next, y, a, b, map){
 	var z = 0;
 	var height = false; 
@@ -362,6 +400,12 @@ function sinSeed(base, next, y, a, b, map){
 	}
 }
 
+// Cosine Seed
+// arguements: int base, int next, int a, int b, int[][] map
+// returns: nothing
+//
+// cosSeed generates seeds for spreading in a 2D along a cos function
+// y = acos(bx)
 function cosSeed(base, next, y, a, b){
 	var z = 0;
 	var height = false; 
@@ -387,6 +431,12 @@ function cosSeed(base, next, y, a, b){
 	}
 }
 
+// Tangent Seed
+// arguements: int base, int next, int a, int b, int[][] map
+// returns: nothing
+//
+// tanSeed generates seeds for spreading in a 2D along a tan function
+// y = atan(bx)
 function tanSeed(base, next, y, a, b){
 	var z = 0;
 	var height = false; 
@@ -412,6 +462,12 @@ function tanSeed(base, next, y, a, b){
 	}
 }
 
+// Cosecant Seed
+// Arguements: int base, int next, int a, int b, int[][] map
+// Returns: nothing
+//
+// cscSeed generates seeds for spreading in a 2D along a csc function
+// y = acsc(bx)
 function cscSeed(base, next, y, a, b){
 	var z = 0;
 	var height = false; 
@@ -437,6 +493,12 @@ function cscSeed(base, next, y, a, b){
 	}
 }
 
+// Secant Seed
+// Arguements: int base, int next, int a, int b, int[][] map
+// Returns: nothing
+//
+// secSeed generates seeds for spreading in a 2D along a sec function
+// y = asec(bx)
 function secSeed(base, next, y, a, b){
 	var z = 0;
 	var height = false; 
@@ -462,6 +524,12 @@ function secSeed(base, next, y, a, b){
 	}
 }
 
+// Cotangent Seed
+// Arguements: int base, int next, int a, int b, int[][] map
+// Returns: nothing
+//
+// ctanSeed generates seeds for spreading in a 2D along a ctan function
+// y = actan(bx)
 function ctanSeed(base, next, y, a, b){
 	var z = 0;
 	var height = false; 

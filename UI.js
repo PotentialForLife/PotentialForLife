@@ -1,3 +1,8 @@
+/*UI Class
+ * Coded by Lauren Cunningham
+ * This is the class for the game's HUD
+ */
+
 var hud = document.getElementById('hud');
 var ctxh = hud.getContext('2d');
 
@@ -55,8 +60,10 @@ enzymesimg.src = "enzyme_UI copy.png";
 var hudLoaded = false;
 var energyStatus = 100;
 
+//creates a UI object. This is called on game creation
 function UI(){}
 
+//draws the UI object on the screen
 UI.prototype.draw = function(){
 		ctxh.clearRect(0,0,600,100);
 		
@@ -137,6 +144,7 @@ UI.prototype.draw = function(){
 		ctxh.font = "20px Georgia";
 		ctxh.fillText(control.PlayerEnergy + "%", 2, 94);
 		
+		//displayes resource amounts
 		ctxh.fillText(player.hasWater, 190, 94);
 		ctxh.fillText(player.hasMinerals, 250, 94);
 		ctxh.fillText(control.Water, 310, 94);
@@ -145,9 +153,11 @@ UI.prototype.draw = function(){
 		ctxh.fillText(control.nitrates, 490, 94);
 		ctxh.fillText(control.Enzyme, 550, 94);
 		
+		//displayes exp and growth points
 		ctxh.font = "16px Georgia";
 		//displays exp
 		ctxh.fillText("EXP : " + plant.exp + " / " + plant.expMax, 50, 30);	
+		ctxh.fillText("Covering : " + Math.floor((globalwin/(166*500*.2))*100) + "%", 50, 50);	
 		//displays growth points
 		ctxh.fillText("GP : " + plant.growthPoints, 50, 92);
 		

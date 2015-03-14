@@ -11,25 +11,12 @@
  * @property: {number} growthPoints: how many times player may "grow" plant by stretching Plant by its roots
  */
 
-/* Plant control
- * Grow: If you have a growth point, allow growth
- * Split: if you have enzyme, allow split
- * Take in water: Input number
- * Take in minerals: Input number
- * Upgrade: With enough resources, upgrade
- * Level: With enough EXP, level
- * Sell: Get back water, not minerals
- * Player Control
- * Picking up things: space
- * Dropping things off: space
- * General interaction: space
- * Basically,bring up a menu and interact that way
- */
 var plantEnum = {SEEDLING: "seedling", SAPLING: "sapling", TREE: "tree", ROOT: "root"};
 var hextreeimg = document.createElement("img");
 hextreeimg.src = "plant_final_stage_icon copy.png";
 var hexsproutimg = document.createElement("img");
 hexsproutimg.src = "plant_first_stage_icon copy.png";
+var tileChecks = [];
 
 function Plant(startingTile){
 	//this.stem = new PlantNode(startingTile, plantEnum.SEEDLING);
@@ -41,7 +28,7 @@ Plant.prototype.lvl = 0;
 Plant.prototype.exp = 0;
 Plant.prototype.expMax = 100;
 Plant.prototype.growthPoints = 0;
-Plant.prototype.numRoots = 0;
+Plant.prototype.numRoots = 500;
 Plant.prototype.numPlants = 1;
 
 function PlantNode(nodeTile, nodeType,distset){
@@ -58,7 +45,8 @@ function PlantNode(nodeTile, nodeType,distset){
 		this.tile.image = hexsproutimg;
 	}
 	this.tile.atmosphere = true;
-	globalatmosphere.push(this.tile);
+	tileChecks.push(this.tile);
+	globalwin = globalwin + 1;
 	this.distance = distset;
 	this.tile.displaying = 0;
 };
@@ -66,7 +54,7 @@ function PlantNode(nodeTile, nodeType,distset){
 PlantNode.prototype.tile = null;
 PlantNode.prototype.type = plantEnum.ROOT;
 PlantNode.prototype.parent = null;
-PlantNode.prototype.children = new Array(); //could reference neighboring tiles instead of just children (change name if so)
+PlantNode.prototype.children = new Array();
 
 
 /**
@@ -108,7 +96,6 @@ Plant.prototype.grow = function(parentNode, tile){
  * Increases 'lvl' by 1, increases 'expMax,' and wraps extra 'exp' around
  */
 Plant.prototype.lvlUp = function(){
-	var globalbuffer = new Array();
 	switch(this.stem.type){
 		case plantEnum.SEEDLING:
 			this.stem.type = plantEnum.SAPLING;
@@ -118,22 +105,14 @@ Plant.prototype.lvlUp = function(){
 		default:
 			this.growthPoints += this.numRoots;
 	}
-	var check = globalatmosphere.length;
-	for(var i = 0; i < check;++i){
-		globalatmosphere[i].spreadair(Math.floor((globalatmosphere[i].x)/3),(globalatmosphere[i].y)-1,(Math.floor(control.TotalEnzymes/50))+1,globalbuffer);
-	}
-	globalatmosphere = globalbuffer.slice(0);
-	console.log(1);
-	globalbuffer.splice(0,globalbuffer.length);
-	console.log(1);
-	console.log(globalwin);
+	this.spreadair();
 	var extraExp = this.exp - this.expMax;
 	this.expMax = Math.floor(this.expMax * 1.05);
 	this.exp = extraExp;
-	player.capacityMax += 10;
 	++this.lvl;
 	lvlUpSound.play();
 };
+
 /**
  * calls 'lvlUp' if 'expMax' has been reached
  */
@@ -142,6 +121,73 @@ Plant.prototype.update = function(){
 		this.lvlUp();
 	}	
 };
+
+/**
+ * Iterates through an array of the outer-most atmosphere tiles and oxygenates their surrounding tiles
+ * Post: tileChecks will only contain the outer-most atmosphere tiles
+ */
+Plant.prototype.spreadair = function(){
+	console.log("length: " + tileChecks.length);
+	for(var extraLoops = 0; extraLoops <= Math.floor(this.numRoots / 50); ++extraLoops){
+		var newChecks = [];
+	
+		for(var numTile = 0; numTile < tileChecks.length; ++numTile){
+			if(checkTileBounds((tileChecks[numTile].x-1)/3, tileChecks[numTile].y+1) && !map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y+1].atmosphere){
+				map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y+1].atmosphere = true;
+				newChecks.push(map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y+1]);
+				globalwin = globalwin + 1;
+			}
+			if(checkTileBounds((tileChecks[numTile].x-1)/3, tileChecks[numTile].y) && !map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y].atmosphere){
+				map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y].atmosphere = true;
+				newChecks.push(map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y]);
+				globalwin = globalwin + 1;
+			}
+			if(checkTileBounds((tileChecks[numTile].x-1)/3, tileChecks[numTile].y-2) && !map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y-2].atmosphere){
+				map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y-2].atmosphere = true;
+				newChecks.push(map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y-2]);
+				globalwin = globalwin + 1;
+			}
+			if(checkTileBounds((tileChecks[numTile].x-1)/3, tileChecks[numTile].y-3) && !map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y-3].atmosphere){
+				map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y-3].atmosphere = true;
+				newChecks.push(map[(tileChecks[numTile].x-1)/3][tileChecks[numTile].y-3]);
+				globalwin = globalwin + 1;
+			}
+			if(!(tileChecks[numTile].y%2)){
+				if(checkTileBounds((tileChecks[numTile].x-1)/3+1, tileChecks[numTile].y) && !map[(tileChecks[numTile].x-1)/3+1][tileChecks[numTile].y].atmosphere){
+					map[(tileChecks[numTile].x-1)/3+1][tileChecks[numTile].y].atmosphere = true;
+					newChecks.push(map[(tileChecks[numTile].x-1)/3+1][tileChecks[numTile].y]);
+					globalwin = globalwin + 1;
+				}
+				if(checkTileBounds((tileChecks[numTile].x-1)/3+1, tileChecks[numTile].y-2) && !map[(tileChecks[numTile].x-1)/3+1][tileChecks[numTile].y-2].atmosphere){
+					map[(tileChecks[numTile].x-1)/3+1][tileChecks[numTile].y-2].atmosphere = true;
+					newChecks.push(map[(tileChecks[numTile].x-1)/3+1][tileChecks[numTile].y-2]);
+					globalwin = globalwin + 1;
+				}
+			}
+			if(tileChecks[numTile].y%2){
+				if(checkTileBounds((tileChecks[numTile].x-1)/3-1, tileChecks[numTile].y-2) && !map[(tileChecks[numTile].x-1)/3-1][tileChecks[numTile].y-2].atmosphere){
+					map[(tileChecks[numTile].x-1)/3-1][tileChecks[numTile].y-2].atmosphere = true;
+					newChecks.push(map[(tileChecks[numTile].x-1)/3-1][tileChecks[numTile].y-2]);
+					globalwin = globalwin + 1;
+				}
+				if(checkTileBounds((tileChecks[numTile].x-1)/3-1, tileChecks[numTile].y) && !map[(tileChecks[numTile].x-1)/3-1][tileChecks[numTile].y].atmosphere){
+					map[(tileChecks[numTile].x-1)/3-1][tileChecks[numTile].y].atmosphere = true;
+					newChecks.push(map[(tileChecks[numTile].x-1)/3-1][tileChecks[numTile].y]);
+					globalwin = globalwin + 1;
+				}
+			}
+			tileChecks.splice(numTile, 1);
+			--numTile;
+		}
+		tileChecks = tileChecks.concat(newChecks);
+		console.log("Global Win: " + globalwin);
+	}
+};
+
+function checkTileBounds(x, y){
+	console.log("x: " + x + "     y: " + y);
+	return (x > 0 && x < map.length && y > 0 && y < map[x].length);
+}
 
 /**
 * Check whether a given tile can contain a new plantNode

@@ -1,3 +1,8 @@
+/*Basic styles
+ * Coded by Lauren Cunningham
+ * This cascading-style-sheet centers out canvas and makes the page background black
+ */
+
 canvas {
 	margin: auto;
     display: block;

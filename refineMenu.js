@@ -1,6 +1,12 @@
+/*Refine Menu Class
+ * Coded by Lauren Cunningham
+ * This is the class for the refining menu screen of the game
+ */
+
 var img = document.createElement("img");
 img.src = "refine_menu copy.png";
 
+//creates a refine menu object. This is called by the station menu and stored in the screen manager
 function refineMenu(){
 	img.src = "refine_menu copy.png";
 	img.onload = function(){
@@ -10,6 +16,7 @@ function refineMenu(){
 
 refineMenu.prototype.type = "refine";
 
+//handles the buttons on the refine menu
 refineMenu.prototype.buttonPress = function(e){
 	var x = e.clientX;
 	var y = e.clientY;
@@ -17,8 +24,7 @@ refineMenu.prototype.buttonPress = function(e){
 	y -= c.offsetTop;
 	
 	if ((x >= 509) && (x <= 551) && (y >= 54) && (y <= 88)){ //back
-		shutDown.play();
-		screenManager.splice((screenManager.length - 1), 1);
+		button.play();
 		screenManager.splice((screenManager.length - 1), 1);
 	}
 	if ((x >= 153) && (x <= 389) && (y >= 193) && (y <= 264)){ //minerals->fertilizer
@@ -45,6 +51,7 @@ refineMenu.prototype.buttonPress = function(e){
 	}
 };
 
+//updates the refine menu (image and text)
 refineMenu.prototype.update = function(){
 	ctx.drawImage(img, 0, 0);
 	ctx.fillStyle = "black";

@@ -1,5 +1,11 @@
+/*Loading Screen Class
+ * Coded by Lauren Cunningham
+ * This is the class for the loading screen of the game
+ */
+
 var img = document.createElement("img");
 
+//creates a loading screen object. This is called from main menu and stored in the screen manager
 function loadingScreen(){
 	img.src = "load_screen0 copy.png";
 	img.onload = function(){
@@ -11,6 +17,7 @@ function loadingScreen(){
 
 loadingScreen.prototype.type = "load";
 
+//updates the loading screen. Cycles through images and then loads a new game into the screen manager
 loadingScreen.prototype.update = function(){
 	switch(this.imgNum){
 		case 0:
@@ -85,6 +92,6 @@ loadingScreen.prototype.update = function(){
 		};
 	}
 	else{
-		screenManager[screenManager.length] = new game();
+		screenManager[screenManager.length] = new game(); //new game
 	}
 };

@@ -1,5 +1,11 @@
+/*Station Menu Class
+ * Coded by Lauren Cunningham
+ * This is the class for the initial station screen of the game
+ */
+
 var img = document.createElement("img");
 
+//creates a station menu object. This is called by pressing spacebar on the station in-game and is stored in the screen manager
 function stationMenu(){
 	img.src = "station_menu copy.png";
 	img.onload = function(){
@@ -9,6 +15,7 @@ function stationMenu(){
 
 stationMenu.prototype.type = "station";
 
+//handles the buttons on the menu (back to game, to the cultivate menu, to the refine menu)
 stationMenu.prototype.buttonPress = function(e){
 	var x = e.clientX;
 	var y = e.clientY;
@@ -29,6 +36,7 @@ stationMenu.prototype.buttonPress = function(e){
 	}
 };
 
+//updates the menu
 stationMenu.prototype.update = function(){
 	img.src = "station_menu copy.png";
 	img.onload = function(){

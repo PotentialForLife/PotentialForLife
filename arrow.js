@@ -1,3 +1,8 @@
+/*Arrow Class
+ * Coded by Lauren Cunningham
+ * This is the class for the in-game guiding arrow
+ */
+
 var arrown = document.createElement("img");
 arrown.src = "arrow_north copy.png";
 
@@ -25,11 +30,13 @@ arrownw.src = "arrow_northwest copy.png";
 var arrowot = document.createElement("img");
 arrowot.src = "arrow_ontarget copy.png";
 
+//creates an arrow. This is called on the creation of a game object
 function arrow(){
 	this.stationx = 5000 - 30;
 	this.stationy = 5000 - 22;
 };
 
+//updates the arrow so that it points back to the command station
 arrow.prototype.draw = function(){
 	if (player.x > this.stationx){
 		if(player.y == this.stationy)

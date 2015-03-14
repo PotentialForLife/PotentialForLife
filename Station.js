@@ -3,8 +3,6 @@ stationimg.src = "command_thingy copy.png";
 
 function Station(hex){
 	hex.type = "control";
-	hex.color = "grey";
-	hex.realcolor = "grey";
 	hex.image = stationimg;
 };
 
